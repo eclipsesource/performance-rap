@@ -4,9 +4,10 @@ import org.eclipse.rwt.Fixture;
 
 import junit.framework.TestCase;
 
+
 public class PerformanceTestCase extends TestCase {
 
-  protected StopWatch watch;
+  private StopWatch watch;
 
   protected void setUp() throws Exception {
     Fixture.setUp();
@@ -17,28 +18,21 @@ public class PerformanceTestCase extends TestCase {
     Fixture.tearDown();
   }
 
-  public void measuredRun( Runnable setup, Runnable testable, int times ) {
+  public void measuredRun( final MeasureRunnable testable, final int times ) {
     for( int i = 0; i < times; i++ ) {
-      setup.run();
+      testable.setUp();
       watch.start();
       testable.run();
       watch.stop();
+      testable.tearDown();
     }
-    watch.getResults().getAllDurations();
+    StopWatchResults results = watch.getResults();
+    Logger.printResults( results );
+    IPerformanceStorage storage = StorageFactory.createPerformanceStorage();
+    storage.putResults( this, results.getAllDurations() );
   }
 
-  
-  public void measuredRun( Runnable testable, int times ) {
-    Runnable nullRunnable = new Runnable() {
-
-      public void run() {
-      }
-    };
-    measuredRun( nullRunnable, testable, times );
-  }
-  
   public void assertPerformance() {
-    // TODO
     IPerformanceStorage storage = StorageFactory.createPerformanceStorage();
     storage.getAggregatedResults();
   }

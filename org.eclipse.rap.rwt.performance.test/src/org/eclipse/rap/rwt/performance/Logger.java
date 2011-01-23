@@ -3,21 +3,16 @@ package org.eclipse.rap.rwt.performance;
 
 // TODO [rst] Transient class to hold extracted logging code
 public final class Logger {
-  
-  public static void printResults( final long[] results ) {
-    long sum = 0;
-    long min = Integer.MAX_VALUE;
-    long max = 0;
-    for( int i = 0; i < results.length; i++ ) {
-      long duration = results[ i ];
-      sum = sum + duration;
-      min = Math.min( min, duration );
-      max = Math.max( max, duration );
-    }
-    System.out.println( "Average Time: " + formatTime( sum / results.length ) );
-    System.out.println( "Min Time: " + formatTime( min ) );
-    System.out.println( "Max Time: " + formatTime( max ) );
-    System.out.println( "Total time: " + formatTime( sum ) );
+
+  public static void printResults( final StopWatchResults results ) {
+    long totalDuration = results.getTotalDuration();
+    long minDuration = results.getMinDuration();
+    long maxDuration = results.getMaxDuration();
+    long avgDuration = totalDuration / results.getNumberOfRuns();
+    System.out.println( "Average Time: " + formatTime( avgDuration ) );
+    System.out.println( "Min Time: " + formatTime( minDuration ) );
+    System.out.println( "Max Time: " + formatTime( maxDuration ) );
+    System.out.println( "Total time: " + formatTime( totalDuration ) );
   }
 
   private static String formatTime( long time ) {

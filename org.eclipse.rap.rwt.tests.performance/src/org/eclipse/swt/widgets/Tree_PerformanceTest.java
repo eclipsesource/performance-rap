@@ -1,5 +1,6 @@
 package org.eclipse.swt.widgets;
 
+import org.eclipse.rap.rwt.performance.MeasureRunnable;
 import org.eclipse.rap.rwt.performance.PerformanceTestCase;
 import org.eclipse.swt.SWT;
 
@@ -21,8 +22,8 @@ public class Tree_PerformanceTest extends PerformanceTestCase {
     }
     TreeItem treeItem = new TreeItem( tree, SWT.NONE );
     treeItem.setText( "last item" );
-    Runnable testable = new Runnable() {
-
+    MeasureRunnable testable = new MeasureRunnable() {
+    
       public void run() {
         tree.updateFlatIndices();
       }

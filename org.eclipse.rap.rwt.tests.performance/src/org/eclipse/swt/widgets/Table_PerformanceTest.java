@@ -1,9 +1,11 @@
 package org.eclipse.swt.widgets;
 
+import org.eclipse.rap.rwt.performance.MeasureRunnable;
 import org.eclipse.rap.rwt.performance.PerformanceTestCase;
 import org.eclipse.rwt.Fixture;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.internal.widgets.tablekit.TableLCA;
+
 
 public class Table_PerformanceTest extends PerformanceTestCase {
 
@@ -11,20 +13,21 @@ public class Table_PerformanceTest extends PerformanceTestCase {
     Display display = new Display();
     Shell shell = new Shell( display );
     final Table table = new Table( shell, SWT.SINGLE | SWT.FULL_SELECTION );
-    Runnable setup = new Runnable() {
-      public void run() {
+    MeasureRunnable testable = new MeasureRunnable() {
+
+      @Override
+      public void setUp() {
         for( int i = 0; i < 50; i++ ) {
           TableItem tableItem = new TableItem( table, SWT.NONE );
           tableItem.setText( "foo " + i );
         }
       }
-    };
-    Runnable test = new Runnable() {
+
       public void run() {
         table.removeAll();
       }
     };
-    measuredRun( setup, test, 1000 );
+    measuredRun( testable, 1000 );
     assertPerformance();
   }
 
@@ -34,8 +37,7 @@ public class Table_PerformanceTest extends PerformanceTestCase {
     final Table table = new Table( shell, SWT.SINGLE | SWT.FULL_SELECTION );
     TableItem tableItem = new TableItem( table, SWT.NONE );
     tableItem.setText( "foo " );
-    Runnable testable = new Runnable() {
-
+    MeasureRunnable testable = new MeasureRunnable() {
       public void run() {
         table.computeSize( SWT.DEFAULT, SWT.DEFAULT );
       }
@@ -52,19 +54,18 @@ public class Table_PerformanceTest extends PerformanceTestCase {
       TableItem tableItem = new TableItem( table, SWT.NONE );
       tableItem.setText( "foo " );
     }
-    Runnable setup = new Runnable() {
-
-      public void run() {
+    MeasureRunnable testable = new MeasureRunnable() {
+    
+      @Override
+      public void setUp() {
         table.deselectAll();
       }
-    };
-    Runnable testable = new Runnable() {
-
+    
       public void run() {
         table.selectAll();
       }
     };
-    measuredRun( setup, testable, 10 );
+    measuredRun( testable, 10 );
     assertPerformance();
   }
 
@@ -78,8 +79,7 @@ public class Table_PerformanceTest extends PerformanceTestCase {
     }
     final TableLCA lca = new TableLCA();
     Fixture.fakeResponseWriter();
-    Runnable testable = new Runnable() {
-
+    MeasureRunnable testable = new MeasureRunnable() {
       public void run() {
         try {
           lca.render( table );
