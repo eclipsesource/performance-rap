@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
 public class H2Bootstrap {
 
   private static final String SCHEMA = "resources/schema.sql";

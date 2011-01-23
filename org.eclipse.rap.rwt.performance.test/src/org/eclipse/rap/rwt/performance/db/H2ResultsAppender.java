@@ -8,20 +8,35 @@ import java.sql.SQLException;
 
 import junit.framework.TestCase;
 
-import org.eclipse.rap.rwt.performance.IPerformanceStorage;
-import org.eclipse.rap.rwt.performance.result.ITestExecutionResult;
+import org.eclipse.rap.rwt.performance.IResultsAppender;
+import org.eclipse.rap.rwt.performance.MeasurementResults;
 
-public class H2PerformanceStorage implements IPerformanceStorage {
+
+public class H2ResultsAppender implements IResultsAppender {
 
   private static final String JDBC_URI = "jdbc:h2:tcp://localhost/~/performance";
   private static final String USERNAME = "sa";
   private static final String PASSWORD = "";
   private Connection con;
 
-  public void putResults( TestCase test, long[] frames ) {
+  public H2ResultsAppender() {
+    try {
+      Class.forName( "org.h2.Driver" );
+    } catch( ClassNotFoundException e ) {
+      e.printStackTrace();
+    }
+  }
+
+  public void append( TestCase test, MeasurementResults results ) {
     int testId = putTest( test );
     int runId = putTestRun( testId );
-    putFrames( runId, frames );
+    putFrames( runId, results.getAllDurations() );
+  }
+  
+  public void dispose() throws Exception {
+    if( con != null ) {
+      con.close();
+    }
   }
 
   private void putFrames( int runId, long[] frames ) {
@@ -95,23 +110,5 @@ public class H2PerformanceStorage implements IPerformanceStorage {
       }
     }
     return result;
-  }
-
-  public H2PerformanceStorage() {
-    try {
-      Class.forName( "org.h2.Driver" );
-    } catch( ClassNotFoundException e ) {
-      e.printStackTrace();
-    }
-  }
-
-  public ITestExecutionResult[] getAggregatedResults() {
-    throw new UnsupportedOperationException();
-  }
-
-  public void dispose() throws Exception {
-    if( con != null ) {
-      con.close();
-    }
   }
 }

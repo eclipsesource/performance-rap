@@ -22,7 +22,6 @@ public class ToolItem_PerformanceTest extends PerformanceTestCase {
       }
     };
     measuredRun( testable, 10000 );
-    assertPerformance();
   }
 
 }

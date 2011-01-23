@@ -29,6 +29,5 @@ public class Tree_PerformanceTest extends PerformanceTestCase {
       }
     };
     measuredRun( testable, 1000 );
-    assertPerformance();
   }
 }

@@ -39,12 +39,12 @@ public final class StopWatch {
     running = false;
   }
 
-  public StopWatchResults getResults() {
+  public MeasurementResults getResults() {
     long[] durations = new long[ frames.size() ];
     for( int i = 0; i < durations.length; i++ ) {
       Long frame = frames.get( i );
       durations[ i ] = frame.longValue();
     }
-    return new StopWatchResults( durations );
+    return new MeasurementResults( durations );
   }
 }

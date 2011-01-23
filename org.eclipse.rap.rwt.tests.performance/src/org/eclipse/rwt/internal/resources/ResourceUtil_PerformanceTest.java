@@ -24,6 +24,5 @@ public class ResourceUtil_PerformanceTest extends PerformanceTestCase {
       }
     };
     measuredRun( testable, 100 );
-    assertPerformance();
   }
 }

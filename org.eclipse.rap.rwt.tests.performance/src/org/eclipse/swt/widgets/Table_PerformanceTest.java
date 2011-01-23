@@ -28,7 +28,6 @@ public class Table_PerformanceTest extends PerformanceTestCase {
       }
     };
     measuredRun( testable, 1000 );
-    assertPerformance();
   }
 
   public void testComputeSize() throws Exception {
@@ -43,7 +42,6 @@ public class Table_PerformanceTest extends PerformanceTestCase {
       }
     };
     measuredRun( testable, 1000 );
-    assertPerformance();
   }
 
   public void testSelectAll() throws Exception {
@@ -66,7 +64,6 @@ public class Table_PerformanceTest extends PerformanceTestCase {
       }
     };
     measuredRun( testable, 10 );
-    assertPerformance();
   }
 
   public void testLCAPerformance() throws Exception {
@@ -90,6 +87,5 @@ public class Table_PerformanceTest extends PerformanceTestCase {
       }
     };
     measuredRun( testable, 100 );
-    assertPerformance();
   }
 }

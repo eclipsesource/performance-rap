@@ -2,20 +2,20 @@ package org.eclipse.rap.rwt.performance.test;
 
 import junit.framework.TestCase;
 
-import org.eclipse.rap.rwt.performance.IPerformanceStorage;
-import org.eclipse.rap.rwt.performance.StorageFactory;
-import org.eclipse.rap.rwt.performance.file.StdOutPerformanceStorage;
+import org.eclipse.rap.rwt.performance.IResultsAppender;
+import org.eclipse.rap.rwt.performance.AppenderFactory;
+import org.eclipse.rap.rwt.performance.file.StdOutResultsAppener;
 
 
 public class StorageFactory_Test extends TestCase {
 
   public void testDefault() {
-    IPerformanceStorage storage = StorageFactory.createPerformanceStorage();
-    assertTrue( storage instanceof StdOutPerformanceStorage );
+    IResultsAppender appender = AppenderFactory.getAppender();
+    assertTrue( appender instanceof StdOutResultsAppener );
   }
 
   public void testSameInstance() {
-    IPerformanceStorage storage = StorageFactory.createPerformanceStorage();
-    assertSame( storage, StorageFactory.createPerformanceStorage() );
+    IResultsAppender appender = AppenderFactory.getAppender();
+    assertSame( appender, AppenderFactory.getAppender() );
   }
 }

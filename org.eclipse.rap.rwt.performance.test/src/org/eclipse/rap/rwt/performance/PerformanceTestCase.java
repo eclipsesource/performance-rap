@@ -7,18 +7,18 @@ import junit.framework.TestCase;
 
 public class PerformanceTestCase extends TestCase {
 
-  private StopWatch watch;
-
+  @Override
   protected void setUp() throws Exception {
     Fixture.setUp();
-    watch = new StopWatch();
   }
 
+  @Override
   protected void tearDown() throws Exception {
     Fixture.tearDown();
   }
 
   public void measuredRun( final MeasureRunnable testable, final int times ) {
+    StopWatch watch = new StopWatch();
     for( int i = 0; i < times; i++ ) {
       testable.setUp();
       watch.start();
@@ -26,14 +26,7 @@ public class PerformanceTestCase extends TestCase {
       watch.stop();
       testable.tearDown();
     }
-    StopWatchResults results = watch.getResults();
-    Logger.printResults( results );
-    IPerformanceStorage storage = StorageFactory.createPerformanceStorage();
-    storage.putResults( this, results.getAllDurations() );
-  }
-
-  public void assertPerformance() {
-    IPerformanceStorage storage = StorageFactory.createPerformanceStorage();
-    storage.getAggregatedResults();
+    IResultsAppender storage = AppenderFactory.getAppender();
+    storage.append( this, watch.getResults() );
   }
 }

@@ -9,40 +9,47 @@ import java.util.Properties;
 
 import junit.framework.TestCase;
 
-import org.eclipse.rap.rwt.performance.IPerformanceStorage;
-import org.eclipse.rap.rwt.performance.result.ITestExecutionResult;
+import org.eclipse.rap.rwt.performance.IResultsAppender;
+import org.eclipse.rap.rwt.performance.MeasurementResults;
 
-public class JUnitPerformanceStorage implements IPerformanceStorage {
+public class JUnitResultsAppender implements IResultsAppender {
 
   private String WORKSPACE = "/home/bmuskalla/.hudson/jobs/junit-performance/workspace/";
 
-  public void putResults( final TestCase test, final long[] frames ) {
+  public void append( TestCase test, MeasurementResults results ) {
     Writer out = null;
     try {
       FileWriter writer = new FileWriter( WORKSPACE + getFileName( test ), true );
       out = new BufferedWriter( writer );
-      writeResult( out, test, frames );
+      writeResult( out, test, results );
     } catch( Exception e ) {
       throw new RuntimeException( e );
     } finally {
       try {
-        out.close();
+        if( out != null ) {
+          out.close();
+        }
       } catch( IOException e ) {
+        // ignore
       }
     }
+  }
+  
+  public void dispose() throws Exception {
+    // nothing to do
   }
 
   private String getFileName( TestCase test ) {
     return "TEST-" + test.getClass().getName() + ".xml";
   }
 
-  private void writeResult( Writer out, TestCase test, long[] frames )
+  private void writeResult( Writer out, TestCase test, MeasurementResults results )
     throws IOException
   {
     String testName = getClassName( test );
     writeHeader( out, testName );
     writeProperties( out );
-    writeResults( out, test, frames );
+    writeResults( out, test, results );
     writeFooter( out );
     out.write( "\n" );
   }
@@ -77,16 +84,17 @@ public class JUnitPerformanceStorage implements IPerformanceStorage {
     }
   }
 
-  private void writeResults( Writer out, TestCase test, long[] frames )
+  private void writeResults( Writer out, TestCase test, MeasurementResults results )
     throws IOException
   {
+    long[] durations = results.getAllDurations();
     long sum = 0;
-    for( int i = 0; i < frames.length; i++ ) {
-      long frameTime = frames[ i ];
+    for( int i = 0; i < durations.length; i++ ) {
+      long frameTime = durations[ i ];
       sum = ( ( frameTime / 1000 ) / 1000 ) / 1000;
       
     }
-    long avg = sum / frames.length;
+    long avg = sum / durations.length;
     out.write( "<testcase time=\""
                + avg
                + "\" classname=\""
@@ -95,13 +103,4 @@ public class JUnitPerformanceStorage implements IPerformanceStorage {
                + test.getName()
                + "\"/>\n" );
   }
-
-  public ITestExecutionResult[] getAggregatedResults() {
-    throw new UnsupportedOperationException();
-  }
-  
-  public void dispose() throws Exception {
-    // nothing to do
-  }
-
 }

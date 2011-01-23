@@ -1,10 +1,13 @@
 package org.eclipse.rap.rwt.performance;
 
-public class StopWatchResults {
+import java.util.Arrays;
+
+
+public class MeasurementResults {
 
   private final long[] durations;
 
-  public StopWatchResults( long[] durations ) {
+  public MeasurementResults( long[] durations ) {
     this.durations = durations;
   }
 
@@ -44,6 +47,25 @@ public class StopWatchResults {
   public long[] getAllDurations() {
     long[] result = new long[ durations.length ];
     System.arraycopy( durations, 0, result, 0, durations.length );
+    return result;
+  }
+
+  public long computeAverage() {
+    return getTotalDuration() / durations.length;
+  }
+
+  public long computeMedian() {
+    long result;
+    long[] sortedList = durations.clone();
+    Arrays.sort( sortedList );
+    int median = sortedList.length / 2;
+    long rightValue = sortedList[ median ];
+    if( sortedList.length % 2 == 1 ) {
+      result = rightValue;
+    } else {
+      long leftValue = sortedList[ median - 1 ];
+      result = ( leftValue + rightValue ) / 2;
+    }
     return result;
   }
 }
