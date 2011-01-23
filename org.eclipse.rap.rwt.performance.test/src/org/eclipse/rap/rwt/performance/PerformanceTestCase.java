@@ -6,11 +6,11 @@ import junit.framework.TestCase;
 
 public class PerformanceTestCase extends TestCase {
 
-  protected PerformanceStopWatch watch;
+  protected StopWatch watch;
 
   protected void setUp() throws Exception {
     Fixture.setUp();
-    watch = new PerformanceStopWatch( this );
+    watch = new StopWatch();
   }
 
   protected void tearDown() throws Exception {
@@ -23,9 +23,8 @@ public class PerformanceTestCase extends TestCase {
       watch.start();
       testable.run();
       watch.stop();
-      watch.commitFrame();
     }
-    watch.commit();
+    watch.getResults().getAllDurations();
   }
 
   
