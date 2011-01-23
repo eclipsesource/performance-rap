@@ -10,7 +10,7 @@ public class StorageFactory {
   public static IPerformanceStorage createPerformanceStorage() {
     if( storage == null ) {
       try {
-        return loadStorageFactory();
+        storage = loadStorageFactory();
       } catch( Exception e ) {
         throw new RuntimeException( e );
       }
