@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: RAP Performance Test Plugin
-Bundle-SymbolicName: org.eclipse.rap.rwt.performance.test
+Bundle-SymbolicName: org.eclipse.rap.rwt.performance
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Benjamin Muskalla
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
