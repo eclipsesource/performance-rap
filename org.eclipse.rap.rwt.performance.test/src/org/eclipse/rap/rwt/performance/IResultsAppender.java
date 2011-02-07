@@ -16,7 +16,7 @@ import junit.framework.TestCase;
 /**
  * Appender for test results.
  * <p>
- * Instances will be created by the {@link AppenderFactory}. Each storage is
+ * Instances will be created by the {@link AppenderFactory}. Each appender is
  * responsible to dispose acquired resources upon {@link #dispose()}.
  * </p>
  */

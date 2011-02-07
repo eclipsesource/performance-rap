@@ -36,7 +36,7 @@ public class PerformanceTestCase extends TestCase {
       watch.stop();
       testable.tearDown();
     }
-    IResultsAppender storage = AppenderFactory.getAppender();
-    storage.append( this, watch.getResults() );
+    IResultsAppender appender = AppenderFactory.getAppender();
+    appender.append( this, watch.getResults() );
   }
 }

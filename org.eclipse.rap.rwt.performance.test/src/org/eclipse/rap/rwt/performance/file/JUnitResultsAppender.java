@@ -86,9 +86,9 @@ public class JUnitResultsAppender implements IResultsAppender {
 
   private void writeProperties( Writer out ) throws IOException {
     Properties properties = System.getProperties();
-    Enumeration enums = properties.propertyNames();
-    for( ; enums.hasMoreElements(); ) {
-      String name = ( String )enums.nextElement();
+    Enumeration<?> names = properties.propertyNames();
+    while( names.hasMoreElements() ) {
+      String name = ( String )names.nextElement();
       String value = ( String )properties.get( name );
       out.write( "<property name=\"" + name + "\" value=\"" + value + "\"/>\n" );
     }
