@@ -19,7 +19,7 @@ import org.eclipse.rap.rwt.performance.MeasurementResults;
 import org.eclipse.rap.rwt.performance.file.StdOutResultsAppener;
 
 
-public class StdOutPerformanceStorage_Test extends TestCase {
+public class StdOutResultsAppender_Test extends TestCase {
 
   private PrintStream bufferedSysOut;
   private PrintStream bufferedSysErr;
@@ -57,7 +57,7 @@ public class StdOutPerformanceStorage_Test extends TestCase {
     MeasurementResults results = new MeasurementResults( new long[] { 0L } );
     appender.append( this, results );
     String expected = "Testcase\tAvg (ms)\tMed (ms)\n"
-                      + "StdOutPerformanceStorage_Test.testAppendEmptyResult\t"
+                      + "StdOutResultsAppender_Test.testAppendEmptyResult\t"
                       + "0.0\t0.0\n";
     assertEquals( expected, sysOut.toString() );
     assertEquals( "", sysErr.toString() );
@@ -70,9 +70,9 @@ public class StdOutPerformanceStorage_Test extends TestCase {
     long[] input2 = new long[] { 20000L, 50000L, 20000L };
     appender.append( this, new MeasurementResults( input2 ) );
     String expected = "Testcase\tAvg (ms)\tMed (ms)\n"
-                      + "StdOutPerformanceStorage_Test.testAppendTwoResults\t"
+                      + "StdOutResultsAppender_Test.testAppendTwoResults\t"
                       + "0.033\t0.022\n"
-                      + "StdOutPerformanceStorage_Test.testAppendTwoResults\t"
+                      + "StdOutResultsAppender_Test.testAppendTwoResults\t"
                       + "0.03\t0.02\n";
     assertEquals( expected, sysOut.toString() );
     assertEquals( "", sysErr.toString() );

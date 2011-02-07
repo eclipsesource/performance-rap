@@ -17,7 +17,7 @@ import org.eclipse.rap.rwt.performance.AppenderFactory;
 import org.eclipse.rap.rwt.performance.file.StdOutResultsAppener;
 
 
-public class StorageFactory_Test extends TestCase {
+public class AppenderFactory_Test extends TestCase {
 
   public void testDefault() {
     IResultsAppender appender = AppenderFactory.getAppender();
