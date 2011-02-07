@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: RWT Performance Tests
-Bundle-SymbolicName: org.eclipse.rap.rwt.tests.performance
+Bundle-SymbolicName: org.eclipse.rap.rwt.performance.test
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Benjamin Muskalla
 Require-Bundle: org.eclipse.core.runtime,
