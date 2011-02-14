@@ -10,22 +10,10 @@
  ******************************************************************************/
 package org.eclipse.rap.rwt.performance;
 
-import org.eclipse.rwt.Fixture;
-
 import junit.framework.TestCase;
 
 
 public class PerformanceTestCase extends TestCase {
-
-  @Override
-  protected void setUp() throws Exception {
-    Fixture.setUp();
-  }
-
-  @Override
-  protected void tearDown() throws Exception {
-    Fixture.tearDown();
-  }
 
   public void measuredRun( final MeasureRunnable testable, final int times ) {
     StopWatch watch = new StopWatch();
@@ -36,7 +24,17 @@ public class PerformanceTestCase extends TestCase {
       watch.stop();
       testable.tearDown();
     }
+    MeasurementResult results = createResults( watch.getDurations() );
     IResultsAppender appender = AppenderFactory.getAppender();
-    appender.append( this, watch.getResults() );
+    appender.append( results );
+  }
+
+  private MeasurementResult createResults( final long[] durations ) {
+    String testCaseName = getClass().getName();
+    String testName = getName();
+    MeasurementResult result = new MeasurementResult( testCaseName,
+                                                      testName,
+                                                      durations );
+    return result;
   }
 }

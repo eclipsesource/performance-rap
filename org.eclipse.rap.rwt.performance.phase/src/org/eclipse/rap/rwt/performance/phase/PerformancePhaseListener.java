@@ -36,7 +36,7 @@ public class PerformancePhaseListener implements PhaseListener {
   public void afterPhase( PhaseEvent event ) {
     meter.stop();
     // TODO [rst] Do something with the results
-    meter.getResults();
+    meter.getDurations();
   }
 
   public PhaseId getPhaseId() {

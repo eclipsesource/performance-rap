@@ -10,42 +10,39 @@
  ******************************************************************************/
 package org.eclipse.rap.rwt.performance.file;
 
-import junit.framework.TestCase;
-
 import org.eclipse.rap.rwt.performance.IResultsAppender;
-import org.eclipse.rap.rwt.performance.MeasurementResults;
+import org.eclipse.rap.rwt.performance.MeasurementResult;
 
 
 public class StdOutResultsAppener implements IResultsAppender {
 
   private static boolean headerPrinted;
-    
+
   public StdOutResultsAppener() {
     headerPrinted = false;
   }
 
-  public void append( final TestCase test, final MeasurementResults results ) {
+  public void append( final MeasurementResult results ) {
     if( results == null ) {
       throw new NullPointerException( "results" );
     }
     if( !headerPrinted ) {
       printHeader();
     }
-    printResult( getTestName( test ), results );
+    printResult( getTestName( results ), results );
   }
 
   public void dispose() throws Exception {
     // nothing to do
   }
 
-  private String getTestName( final TestCase test ) {
-    String className = test.getClass().getName();
+  private String getTestName( final MeasurementResult results ) {
+    String className = results.getTestCaseName();
     int lastDot = className.lastIndexOf( '.' );
     if( lastDot != -1 ) {
       className = className.substring( lastDot + 1 );
     }
-    String testName = className + "." + test.getName();
-    return testName;
+    return className + "." + results.getTestName();
   }
 
   private static void printHeader() {
@@ -54,7 +51,7 @@ public class StdOutResultsAppener implements IResultsAppender {
   }
 
   private static void printResult( final String name,
-                                   final MeasurementResults results )
+                                   final MeasurementResult results )
   {
     System.out.print( name );
     System.out.print( "\t" );

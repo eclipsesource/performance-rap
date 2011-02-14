@@ -14,41 +14,45 @@ import java.util.Arrays;
 
 import junit.framework.TestCase;
 
-import org.eclipse.rap.rwt.performance.MeasurementResults;
+import org.eclipse.rap.rwt.performance.MeasurementResult;
 
 
-public class StopWatchResults_Test extends TestCase {
+public class MeasurementResult_Test extends TestCase {
 
   public void testCreate() {
     long[] input = new long[ 0 ];
-    MeasurementResults results = new MeasurementResults( input );
-    assertEquals( 0, results.getNumberOfRuns() );
-    assertEquals( 0, results.getTotalDuration() );
-    assertEquals( 0, results.getMinDuration() );
-    assertEquals( 0, results.getMaxDuration() );
-    assertTrue( Arrays.equals( input, results.getAllDurations() ) );
+    MeasurementResult result = new MeasurementResult( "foo", "bar", input );
+    assertEquals( "foo", result.getTestCaseName() );
+    assertEquals( "bar", result.getTestName() );
+    assertEquals( 0, result.getNumberOfRuns() );
+    assertEquals( 0, result.getTotalDuration() );
+    assertEquals( 0, result.getMinDuration() );
+    assertEquals( 0, result.getMaxDuration() );
+    assertTrue( Arrays.equals( input, result.getAllDurations() ) );
   }
 
   public void testSafeCopies() {
     long[] input = new long[] { 23 };
-    MeasurementResults results = new MeasurementResults( input );
-    long[] allDurations = results.getAllDurations();
+    MeasurementResult result = new MeasurementResult( "", "", input );
+    long[] allDurations = result.getAllDurations();
     assertNotSame( input, allDurations );
-    assertNotSame( allDurations, results.getAllDurations() );
+    assertNotSame( allDurations, result.getAllDurations() );
   }
 
   public void testSingleResult() throws Exception {
-    MeasurementResults results = new MeasurementResults( new long[] { 23 } );
-    assertEquals( 1, results.getNumberOfRuns() );
-    assertEquals( 23, results.getTotalDuration() );
-    assertEquals( 23, results.getMinDuration() );
-    assertEquals( 23, results.getMaxDuration() );
-    assertEquals( 1, results.getAllDurations().length );
-    assertEquals( 23, results.getAllDurations()[ 0 ] );
+    long[] input = new long[] { 23 };
+    MeasurementResult result = new MeasurementResult( "", "", input );
+    assertEquals( 1, result.getNumberOfRuns() );
+    assertEquals( 23, result.getTotalDuration() );
+    assertEquals( 23, result.getMinDuration() );
+    assertEquals( 23, result.getMaxDuration() );
+    assertEquals( 1, result.getAllDurations().length );
+    assertEquals( 23, result.getAllDurations()[ 0 ] );
   }
 
   public void testTwoRunsInResult() throws Exception {
-    MeasurementResults results = new MeasurementResults( new long[] { 23, 42 } );
+    long[] input = new long[] { 23, 42 };
+    MeasurementResult results = new MeasurementResult( "", "", input );
     assertEquals( 2, results.getNumberOfRuns() );
     assertEquals( 23 + 42, results.getTotalDuration() );
     assertEquals( 23, results.getMinDuration() );
@@ -75,12 +79,12 @@ public class StopWatchResults_Test extends TestCase {
   }
 
   private static long computeAverage( long[] input ) {
-    MeasurementResults results = new MeasurementResults( input );
+    MeasurementResult results = new MeasurementResult( "", "", input );
     return results.computeAverage();
   }
 
   private static long computeMedian( long[] input ) {
-    MeasurementResults results = new MeasurementResults( input );
+    MeasurementResult results = new MeasurementResult( "", "", input );
     return results.computeMedian();
   }
 }

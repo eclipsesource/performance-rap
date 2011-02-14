@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.eclipse.rap.rwt.performance;
 
-import junit.framework.TestCase;
-
 
 public class CompositeResultsAppender implements IResultsAppender {
 
@@ -21,10 +19,10 @@ public class CompositeResultsAppender implements IResultsAppender {
     this.appenders = appenders;
   }
 
-  public void append( final TestCase test, final MeasurementResults results ) {
+  public void append( final MeasurementResult results ) {
     for( int i = 0; i < appenders.length; i++ ) {
       IResultsAppender appender = appenders[ i ];
-      appender.append( test, results );
+      appender.append( results );
     }
   }
 

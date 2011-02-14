@@ -11,27 +11,30 @@
 package org.eclipse.rap.rwt.performance.file;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
-import junit.framework.TestCase;
-
 import org.eclipse.rap.rwt.performance.IResultsAppender;
-import org.eclipse.rap.rwt.performance.MeasurementResults;
+import org.eclipse.rap.rwt.performance.MeasurementResult;
 
 
 public class FileResultsAppender implements IResultsAppender {
 
   private static final String SEPARATOR = ";";
-  private String FILE_NAME = System.getProperty( "user.home" ) + "/results.csv";
+  private final File file;
 
-  public void append( TestCase test, MeasurementResults results ) {
+  public FileResultsAppender( File file ) {
+    this.file = file;
+  }
+
+  public void append( MeasurementResult results ) {
     Writer out = null;
     try {
-      FileWriter writer = new FileWriter( FILE_NAME, true );
+      FileWriter writer = new FileWriter( file, true );
       out = new BufferedWriter( writer );
-      writeResult( out, test, results );
+      writeResult( out, results );
     } catch( Exception e ) {
       throw new RuntimeException( e );
     } finally {
@@ -49,11 +52,11 @@ public class FileResultsAppender implements IResultsAppender {
     // nothing to do
   }
 
-  private void writeResult( Writer out, TestCase test, MeasurementResults results )
+  private void writeResult( Writer out, MeasurementResult results )
     throws IOException
   {
-    String className = test.getClass().getName();
-    String testName = className + "." + test.getName();
+    String className = results.getTestCaseName();
+    String testName = className + "." + results.getTestName();
     writeTestname( out, testName );
     writeSeparator( out );
     writeResults( out, results );
@@ -68,7 +71,7 @@ public class FileResultsAppender implements IResultsAppender {
     out.write( SEPARATOR );
   }
 
-  private void writeResults( Writer out, MeasurementResults results )
+  private void writeResults( Writer out, MeasurementResult results )
     throws IOException
   {
     long[] durations = results.getAllDurations();

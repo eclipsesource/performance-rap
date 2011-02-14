@@ -16,10 +16,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import junit.framework.TestCase;
-
 import org.eclipse.rap.rwt.performance.IResultsAppender;
-import org.eclipse.rap.rwt.performance.MeasurementResults;
+import org.eclipse.rap.rwt.performance.MeasurementResult;
 
 
 public class H2ResultsAppender implements IResultsAppender {
@@ -37,8 +35,8 @@ public class H2ResultsAppender implements IResultsAppender {
     }
   }
 
-  public void append( TestCase test, MeasurementResults results ) {
-    int testId = putTest( test );
+  public void append( MeasurementResult results ) {
+    int testId = putTest( results );
     int runId = putTestRun( testId );
     putFrames( runId, results.getAllDurations() );
   }
@@ -84,10 +82,10 @@ public class H2ResultsAppender implements IResultsAppender {
     return runId;
   }
 
-  private int putTest( TestCase test ) {
+  private int putTest( MeasurementResult results ) {
     Connection con = getConnection();
-    String className = test.getClass().getName();
-    String testName = test.getName();
+    String className = results.getTestCaseName();
+    String testName = results.getTestName();
     int testId = 0;
     try {
       String sql = "INSERT INTO tests( TESTNAME , TESTCLASS) VALUES (?, ?);";

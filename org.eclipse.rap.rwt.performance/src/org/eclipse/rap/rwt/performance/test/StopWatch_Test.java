@@ -13,16 +13,14 @@ package org.eclipse.rap.rwt.performance.test;
 import junit.framework.TestCase;
 
 import org.eclipse.rap.rwt.performance.StopWatch;
-import org.eclipse.rap.rwt.performance.MeasurementResults;
 
 
 public class StopWatch_Test extends TestCase {
 
   public void testCreate() {
     StopWatch stopWatch = new StopWatch();
-    MeasurementResults results = stopWatch.getResults();
-    assertEquals( 0, results.getNumberOfRuns() );
-    assertEquals( 0, results.getAllDurations().length );
+    long[] results = stopWatch.getDurations();
+    assertEquals( 0, results.length );
   }
 
   public void testRunOnce() throws Exception {
@@ -30,10 +28,9 @@ public class StopWatch_Test extends TestCase {
     stopWatch.start();
     Thread.sleep( 1 );
     stopWatch.stop();
-    MeasurementResults results = stopWatch.getResults();
-    assertEquals( 1, results.getNumberOfRuns() );
-    assertEquals( 1, results.getAllDurations().length );
-    assertTrue( results.getAllDurations()[ 0 ] > 0 );
+    long[] results = stopWatch.getDurations();
+    assertEquals( 1, results.length );
+    assertTrue( results[ 0 ] > 0 );
   }
 
   public void testRunTwice() throws Exception {
@@ -44,13 +41,11 @@ public class StopWatch_Test extends TestCase {
     stopWatch.start();
     Thread.sleep( 2 );
     stopWatch.stop();
-    MeasurementResults results = stopWatch.getResults();
-    assertEquals( 2, results.getNumberOfRuns() );
-    long[] allDurations = results.getAllDurations();
-    assertEquals( 2, allDurations.length );
-    assertTrue( allDurations[ 0 ] > 0 );
-    assertTrue( allDurations[ 1 ] > 0 );
-    assertTrue( allDurations[ 0 ] != allDurations[ 1 ] );
+    long[] results = stopWatch.getDurations();
+    assertEquals( 2, results.length );
+    assertTrue( results[ 0 ] > 0 );
+    assertTrue( results[ 1 ] > 0 );
+    assertTrue( results[ 0 ] != results[ 1 ] );
   }
 
   public void testStartTwice() {

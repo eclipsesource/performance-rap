@@ -15,7 +15,7 @@ import java.io.PrintStream;
 
 import junit.framework.TestCase;
 
-import org.eclipse.rap.rwt.performance.MeasurementResults;
+import org.eclipse.rap.rwt.performance.MeasurementResult;
 import org.eclipse.rap.rwt.performance.file.StdOutResultsAppener;
 
 
@@ -45,7 +45,7 @@ public class StdOutResultsAppender_Test extends TestCase {
   public void testAppendNull() {
     StdOutResultsAppener appender = new StdOutResultsAppener();
     try {
-      appender.append( this, (MeasurementResults)null );
+      appender.append( (MeasurementResult)null );
       fail();
     } catch( NullPointerException e ) {
       // expected
@@ -54,8 +54,8 @@ public class StdOutResultsAppender_Test extends TestCase {
 
   public void testAppendEmptyResult() {
     StdOutResultsAppener appender = new StdOutResultsAppener();
-    MeasurementResults results = new MeasurementResults( new long[] { 0L } );
-    appender.append( this, results );
+    MeasurementResult results = new MeasurementResult( "", "", new long[] { 0L } );
+    appender.append( results );
     String expected = "Testcase\tAvg (ms)\tMed (ms)\n"
                       + "StdOutResultsAppender_Test.testAppendEmptyResult\t"
                       + "0.0\t0.0\n";
@@ -66,9 +66,9 @@ public class StdOutResultsAppender_Test extends TestCase {
   public void testAppendTwoResults() {
     StdOutResultsAppener appender = new StdOutResultsAppener();
     long[] input1 = new long[] { 22000L, 55000L, 22000L };
-    appender.append( this, new MeasurementResults( input1 ) );
+    appender.append( new MeasurementResult( "", "", input1 ) );
     long[] input2 = new long[] { 20000L, 50000L, 20000L };
-    appender.append( this, new MeasurementResults( input2 ) );
+    appender.append( new MeasurementResult( "", "", input2 ) );
     String expected = "Testcase\tAvg (ms)\tMed (ms)\n"
                       + "StdOutResultsAppender_Test.testAppendTwoResults\t"
                       + "0.033\t0.022\n"

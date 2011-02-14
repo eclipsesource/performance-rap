@@ -12,10 +12,21 @@ package org.eclipse.swt.widgets;
 
 import org.eclipse.rap.rwt.performance.MeasureRunnable;
 import org.eclipse.rap.rwt.performance.PerformanceTestCase;
+import org.eclipse.rwt.Fixture;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 
 public class ToolItem_PerformanceTest extends PerformanceTestCase {
+
+  @Override
+  protected void setUp() throws Exception {
+    Fixture.setUp();
+  }
+
+  @Override
+  protected void tearDown() throws Exception {
+    Fixture.tearDown();
+  }
 
   public void testBounds() throws Exception {
     Display display = new Display();

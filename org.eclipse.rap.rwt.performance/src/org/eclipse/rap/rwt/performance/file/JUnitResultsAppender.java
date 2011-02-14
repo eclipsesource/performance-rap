@@ -20,18 +20,18 @@ import java.util.Properties;
 import junit.framework.TestCase;
 
 import org.eclipse.rap.rwt.performance.IResultsAppender;
-import org.eclipse.rap.rwt.performance.MeasurementResults;
+import org.eclipse.rap.rwt.performance.MeasurementResult;
 
 public class JUnitResultsAppender implements IResultsAppender {
 
   private String WORKSPACE = "/home/bmuskalla/.hudson/jobs/junit-performance/workspace/";
 
-  public void append( TestCase test, MeasurementResults results ) {
+  public void append( MeasurementResult results ) {
     Writer out = null;
     try {
-      FileWriter writer = new FileWriter( WORKSPACE + getFileName( test ), true );
+      FileWriter writer = new FileWriter( WORKSPACE + getFileName( results ), true );
       out = new BufferedWriter( writer );
-      writeResult( out, test, results );
+      writeResult( out, results );
     } catch( Exception e ) {
       throw new RuntimeException( e );
     } finally {
@@ -49,17 +49,17 @@ public class JUnitResultsAppender implements IResultsAppender {
     // nothing to do
   }
 
-  private String getFileName( TestCase test ) {
-    return "TEST-" + test.getClass().getName() + ".xml";
+  private String getFileName( MeasurementResult results ) {
+    return "TEST-" + results.getTestCaseName() + ".xml";
   }
 
-  private void writeResult( Writer out, TestCase test, MeasurementResults results )
+  private void writeResult( Writer out, MeasurementResult results )
     throws IOException
   {
-    String testName = getClassName( test );
+    String testName = getClassName( results );
     writeHeader( out, testName );
     writeProperties( out );
-    writeResults( out, test, results );
+    writeResults( out, results );
     writeFooter( out );
     out.write( "\n" );
   }
@@ -68,9 +68,9 @@ public class JUnitResultsAppender implements IResultsAppender {
     out.write( "</testsuite>" );
   }
 
-  private String getClassName( TestCase test ) {
-    String className = test.getClass().getName();
-    String testName = className + "." + test.getName();
+  private String getClassName( MeasurementResult results ) {
+    String className = results.getTestCaseName();
+    String testName = className + "." + results.getTestName();
     return testName;
   }
 
@@ -94,7 +94,7 @@ public class JUnitResultsAppender implements IResultsAppender {
     }
   }
 
-  private void writeResults( Writer out, TestCase test, MeasurementResults results )
+  private void writeResults( Writer out, MeasurementResult results )
     throws IOException
   {
     long[] durations = results.getAllDurations();
@@ -108,9 +108,9 @@ public class JUnitResultsAppender implements IResultsAppender {
     out.write( "<testcase time=\""
                + avg
                + "\" classname=\""
-               + test.getClass().getName()
+               + results.getTestCaseName()
                + "\" name=\""
-               + test.getName()
+               + results.getTestName()
                + "\"/>\n" );
   }
 }

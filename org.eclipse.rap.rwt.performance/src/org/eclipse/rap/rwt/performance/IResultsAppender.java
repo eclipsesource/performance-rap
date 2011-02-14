@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.eclipse.rap.rwt.performance;
 
-import junit.framework.TestCase;
-
 
 /**
  * Appender for test results.
@@ -24,11 +22,9 @@ public interface IResultsAppender {
 
   /**
    * Appends the given results to this appender, grouped by the given testcase.
-   * 
-   * @param test the current testcase
    * @param results the results to append
    */
-  void append( TestCase test, MeasurementResults results );
+  void append( MeasurementResult results );
 
   /**
    * Releases all resources that this appender may have been acquired such as

@@ -13,14 +13,29 @@ package org.eclipse.rap.rwt.performance;
 import java.util.Arrays;
 
 
-public class MeasurementResults {
+public class MeasurementResult {
 
+  private final String testCaseName;
+  private final String testName;
   private final long[] durations;
 
-  public MeasurementResults( long[] durations ) {
+  public MeasurementResult( final String testCaseName,
+                            final String testName,
+                            final long[] durations )
+  {
+    this.testCaseName = testCaseName;
+    this.testName = testName;
     this.durations = durations;
   }
 
+  public String getTestCaseName() {
+    return testCaseName;
+  }
+
+  public String getTestName() {
+    return testName;
+  }
+  
   public int getNumberOfRuns() {
     return durations.length;
   }

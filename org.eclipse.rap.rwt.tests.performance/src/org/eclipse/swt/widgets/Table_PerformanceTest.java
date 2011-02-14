@@ -19,6 +19,16 @@ import org.eclipse.swt.internal.widgets.tablekit.TableLCA;
 
 public class Table_PerformanceTest extends PerformanceTestCase {
 
+  @Override
+  protected void setUp() throws Exception {
+    Fixture.setUp();
+  }
+
+  @Override
+  protected void tearDown() throws Exception {
+    Fixture.tearDown();
+  }
+
   public void testRemoveAll() throws Exception {
     Display display = new Display();
     Shell shell = new Shell( display );
